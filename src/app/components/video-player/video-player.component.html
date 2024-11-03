@@ -4,3 +4,23 @@
     (play)="listenerPlay()" 
     ></video>
 </div>
+
+<div class="" *ngIf="!modelsReady">
+ 
+    <div class="three-body">
+        <div class="three-body__dot"></div>
+        <div class="three-body__dot"></div>
+        <div class="three-body__dot"></div>
+        </div>
+</div>
+
+<div class="filters" *ngFor="let filter of filters">
+    <!-- <div class="filter-eye filter-question" *ngIf="filter.type=='question' ">
+        <span [innerHTML]="filter.questions"></span>
+    </div> -->
+
+    <div class="filter-eye filter-image" *ngIf="filter.type=='image' ">
+        <img src="../../../assets/filters/sunglass.png"/>
+    </div>
+
+</div>

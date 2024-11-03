@@ -13,6 +13,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
+            "allowedCommonJsDependencies": ["lodash","@tensorflow/tfjs-core"],
             "outputPath": "dist/facce-api",
             "index": "src/index.html",
             "main": "src/main.ts",

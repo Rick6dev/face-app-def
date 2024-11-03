@@ -1,10 +1,11 @@
-import { Injectable } from '@angular/core';
+import { EventEmitter, Injectable } from '@angular/core';
 import { FaceApiService } from '../FaceAPI/face-api.service';
-
+import * as _ from 'lodash';
 @Injectable({
   providedIn: 'root'
 })
 export class VideoPlayerService {
+  cbAi:EventEmitter<any>= new EventEmitter()
 
   constructor(private faceApiService:FaceApiService) {
    }
@@ -21,19 +22,32 @@ export class VideoPlayerService {
         .withFaceLandmarks()
         .withFaceExpressions();
   
-        console.log(detectionsFaces)
+        // console.log(detectionsFaces)
       // Process detected faces
-      detectionsFaces.forEach((face:any) => {
-        const landmarks = face.landmarks;
-        const expressions = face.expressions;
-  
-        // Use landmarks and expressions for your specific needs, e.g.,
-        console.log('Facial landmarks:', landmarks);
-        console.log('Facial expressions:', expressions);
-  
-        // Potential usage: drawing landmarks on the video element
-        // ...
-      });
+    
+      // const resizedDetectections= globalFace.resiz
+      // Setectar la  primara cara
+      const landmark = detectionsFaces[0].landmarks || null;
+      const expressions = detectionsFaces[0].expressions || null;
+      // Detectar  ojos
+      const eyeLeft = landmark.getLeftEye();
+      const eyeRight = landmark.getRightEye();
+
+      const  eyes={
+        left:[_.head(eyeLeft),_.last(eyeLeft)],
+        right:[_.head(eyeRight),_.last(eyeRight)]
+
+      }
+      console.log(eyes)
+      const resizedDetections =globalFace.resizeResults(detectionsFaces,displaySize);
+// Emitimos  todos  lo necesario para  detectar  el rostro
+      this.cbAi.emit({
+        resizedDetections,
+        displaySize,
+        expressions,
+        eyes,videoElement
+      })
+
     } catch (error) {
       console.error('Error detecting faces:', error);
     }
