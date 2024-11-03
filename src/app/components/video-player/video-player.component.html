@@ -1,0 +1,6 @@
+<div *ngIf="modelsReady">
+    <video #videoElement *ngIf="stream" [srcObject]="stream" [style.width]="width+'px'" [style.heigth]="heigth+'px'"
+    (loadedmetadata)="loadedMetaData()"
+    (play)="listenerPlay()" 
+    ></video>
+</div>
